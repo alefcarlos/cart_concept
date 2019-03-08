@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'detail/detail_page.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'price.dart';
+import 'item_model.dart';
 
 class ItemCard extends StatelessWidget {
+  final Item item;
+  ItemCard(this.item);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,8 +18,8 @@ class ItemCard extends StatelessWidget {
       ),
       child: Stack(
         children: <Widget>[
-          _CollectionItemCard(),
-          _CollectionItemThumb(),
+          _CollectionItemCard(item),
+          _CollectionItemThumb(item),
         ],
       ),
     );
@@ -20,19 +27,14 @@ class ItemCard extends StatelessWidget {
 }
 
 class _CollectionItemCard extends StatelessWidget {
+  final Item item;
+  _CollectionItemCard(this.item);
+
   static final headerTextStyle = TextStyle(
     color: Colors.white,
     fontSize: 18.0,
     fontWeight: FontWeight.w600,
   );
-
-  static final regularTextStyle = TextStyle(
-    color: Colors.white70,
-    fontSize: 9.0,
-    fontWeight: FontWeight.w400,
-  );
-
-  static final subHeaderTextStyle = regularTextStyle.copyWith(fontSize: 12.0);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class _CollectionItemCard extends StatelessWidget {
       height: 125.0,
       margin: EdgeInsets.only(left: 46.0),
       decoration: BoxDecoration(
-        color: Colors.purpleAccent,
+        color: Color(0xFF736AB7),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: <BoxShadow>[
@@ -59,16 +61,26 @@ class _CollectionItemCard extends StatelessWidget {
           children: <Widget>[
             Container(height: 4.0),
             Text(
-              'Celular 4g',
+              item.name,
               style: headerTextStyle,
             ),
             Container(height: 10.0),
-            // Text('Tenho ${item.quantity}', style: subHeaderTextStyle),
+            SmoothStarRating(
+              rating: item.rating,
+              size: 14,
+              color: Colors.white,
+            ),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 8.0),
-                height: 2.0,
-                width: 18.0,
-                color: Theme.of(context).accentColor),
+              margin: EdgeInsets.symmetric(vertical: 8.0),
+              height: 2.0,
+              width: 18.0,
+              color: Theme.of(context).primaryColor,
+            ),
+            Container(
+              padding: EdgeInsets.only(right: 10.0),
+              alignment: Alignment.centerRight,
+              child: Price(item: item),
+            )
           ],
         ),
       ),
@@ -77,21 +89,30 @@ class _CollectionItemCard extends StatelessWidget {
 }
 
 class _CollectionItemThumb extends StatelessWidget {
-  _CollectionItemThumb();
-
+  final Item item;
+  _CollectionItemThumb(this.item);
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 16.0),
-      child: Hero(
-        tag: 'tag',
-        child: CachedNetworkImage(
-          imageUrl:
-              "https://ptanime.com/wp-content/uploads/2016/10/JoJos-Bizarre-adventura-part-3-stardust-crusaders-viz-hardcover-volume1.jpg",
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Icon(Icons.error_outline),
-          height: 92.0,
-          width: 92.0,
+    return InkWell(
+      onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => DetailPage(item),
+            ),
+          ),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 16.0),
+        child: Hero(
+          tag: 'tag_${item.id}',
+          child: CachedNetworkImage(
+            imageUrl:
+                item.mainImageURI,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error_outline),
+            height: 92.0,
+            width: 92.0,
+          ),
         ),
       ),
     );
