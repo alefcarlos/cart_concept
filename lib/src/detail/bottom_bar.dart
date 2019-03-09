@@ -31,11 +31,13 @@ class DetailBottomBar extends StatelessWidget {
                 builder: (BuildContext context) {
                   return BuyItem(item: item);
                 },
-              ).whenComplete(() {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: new Text('Item foi comprado com sucesso!'),
-                  duration: const Duration(seconds: 1),
-                ));
+              ).then((dynamic value) {
+                if (value != null) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: new Text('Item foi adicionado com sucesso.'),
+                    duration: const Duration(seconds: 1),
+                  ));
+                }
               });
             },
           ),

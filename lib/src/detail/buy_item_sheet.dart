@@ -8,16 +8,33 @@ class BuyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
+    return Stack(
+      overflow: Overflow.visible,
+      fit: StackFit.expand,
       children: <Widget>[
+        BuyForm(
+          item: item,
+        ),
         Container(
           alignment: Alignment.topLeft,
           child: CloseButton(),
         ),
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: BuyForm(item: item),
+        Positioned(
+          bottom: 0.0,
+          child: Container(
+            height: 45.0,
+            color: Colors.grey[200],
+            width: MediaQuery.of(context).size.width,
+            child: FlatButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Icon(
+                Icons.add_shopping_cart,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
         )
       ],
     );
