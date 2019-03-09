@@ -6,7 +6,8 @@ class Item {
   String _mainImageURI;
   double _rating;
 
-  Item(this._id, this._name, this._listPrice, this._discountPrice, this._mainImageURI, this._rating);
+  Item(this._id, this._name, this._listPrice, this._discountPrice,
+      this._mainImageURI, this._rating);
 
   int get id => _id;
   String get name => _name;
@@ -14,5 +15,6 @@ class Item {
   double get discountPrice => _discountPrice;
   String get mainImageURI => _mainImageURI;
   double get rating => _rating;
-  bool get hasDiscount => _discountPrice > 0;
+  bool get hasDiscount => _discountPrice > 0 && _discountPrice <= listPrice;
+  double get price => hasDiscount ? discountPrice : listPrice;
 }

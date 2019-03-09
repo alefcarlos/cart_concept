@@ -4,6 +4,7 @@ import 'detail/detail_page.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'price.dart';
 import 'item_model.dart';
+import 'shared/separator.dart';
 
 class ItemCard extends StatelessWidget {
   final Item item;
@@ -70,12 +71,7 @@ class _CollectionItemCard extends StatelessWidget {
               size: 14,
               color: Colors.white,
             ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              height: 2.0,
-              width: 18.0,
-              color: Theme.of(context).primaryColor,
-            ),
+            Separator(),
             Container(
               padding: EdgeInsets.only(right: 10.0),
               alignment: Alignment.centerRight,
@@ -91,7 +87,7 @@ class _CollectionItemCard extends StatelessWidget {
 class _CollectionItemThumb extends StatelessWidget {
   final Item item;
   _CollectionItemThumb(this.item);
-  
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -106,8 +102,7 @@ class _CollectionItemThumb extends StatelessWidget {
         child: Hero(
           tag: 'tag_${item.id}',
           child: CachedNetworkImage(
-            imageUrl:
-                item.mainImageURI,
+            imageUrl: item.mainImageURI,
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error_outline),
             height: 92.0,

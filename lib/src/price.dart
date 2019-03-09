@@ -9,19 +9,25 @@ class Price extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _listPriceStyle = listPriceStyle ??
+        TextStyle(
+            color: Colors.white70,
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold);
+
+    if (item.hasDiscount) {
+      _listPriceStyle = _listPriceStyle.copyWith(
+          fontSize: 13.0,
+          fontWeight: FontWeight.normal,
+          decoration: TextDecoration.lineThrough);
+    }
+
     return Wrap(
       alignment: WrapAlignment.start,
       children: <Widget>[
         Text(
           'R\$ ${item.listPrice.toStringAsFixed(2)}',
-          style: listPriceStyle ??
-              TextStyle(
-                  color: Colors.white70,
-                  fontSize: item.hasDiscount ? 13.0 : 16.0,
-                  fontWeight:
-                      item.hasDiscount ? FontWeight.normal : FontWeight.bold,
-                  decoration:
-                      item.hasDiscount ? TextDecoration.lineThrough : null),
+          style: _listPriceStyle,
         ),
         Visibility(
           visible: item.hasDiscount,
